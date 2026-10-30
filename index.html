@@ -11,74 +11,92 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
 <style>
+/* สไตล์เดียวกับ WL Admin (Material Design 3): แยกชั้นด้วยโทนพื้น · เส้นขอบ 1px · ปุ่มแคปซูล · ตัวอักษร Noto Sans Thai 15px
+   สีแบรนด์ของหน้านี้ = น้ำเงิน-ทอง (สีของโรงเรียน) · สีประจำแอปใช้เฉพาะไอคอน/ชิป/ปุ่มของแต่ละใบ */
 :root {
-  --bg: #f7f8f6; --card: #ffffff; --ink: #1b1d1b; --ink-soft: #4b524c; --rule: #d9ded9;
-  --head: #1f3a2b; --head-ink: #eef4ef;
+  --bg: #f6f8fc; --paper: #ebeff6; --sheet: #f1f4fa; --rule: #c4cbd8; --outline: #727a8a;
+  --ink: #191c22; --ink-soft: #444b59;
+  --pen: #0a4a96; --on-pen: #ffffff; --pen-wash: #d6e4ff; --on-pen-wash: #001b3e;
+  --gold: #d9a531; --gold-ink: #f3cf74;
+  --r: 8px; --r-lg: 12px;
+  --font-ui: "Noto Sans Thai", "Leelawadee UI", "Tahoma", sans-serif;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #101310; --card: #1b1f1b; --ink: #e4e8e4; --ink-soft: #aab2ab; --rule: #333a33; --head: #0c1a12; --head-ink: #e4e8e4; }
+  :root { --bg: #10131a; --paper: #1c2029; --sheet: #181c24; --rule: #404756; --outline: #8b93a3; --ink: #e1e4ec; --ink-soft: #bfc5d2;
+    --pen: #a9c7ff; --on-pen: #00325f; --pen-wash: #1f4a85; --on-pen-wash: #d6e4ff; }
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
-body { background: var(--bg); color: var(--ink); font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif; line-height: 1.55; min-height: 100vh; display: flex; flex-direction: column; }
-header { position: relative; background:
-    linear-gradient(180deg, #0f4c91 0%, #0a3470 55%, #062150 100%);
-  color: #fff; padding: 36px 16px 64px; text-align: center; border-bottom: 4px solid #d9a531; }
-header::after { content: ""; position: absolute; inset: auto 0 -4px 0; height: 4px; background: linear-gradient(90deg, transparent, #fff3c4 50%, transparent); opacity: .7; }
-header img { width: 132px; height: 132px; border-radius: 30px; box-shadow: 0 10px 34px rgba(0,0,0,.45), 0 0 40px rgba(240,200,100,.35); }
-header h1 { margin: 16px 0 2px; font-size: 1.75rem; letter-spacing: .01em; color: #f3cf74; text-shadow: 0 2px 10px rgba(0,0,0,.35); }
-header p { margin: 0; color: #fff3d0; opacity: .95; font-size: .98rem; }
-main { width: 100%; max-width: 920px; margin: -32px auto 0; padding: 0 16px 32px; flex: 1; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
-.app { --c: #444; display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 4px 16px; align-items: center; padding: 16px; background: var(--card);
-  border: 1px solid var(--rule); border-radius: 22px; text-decoration: none; color: inherit; position: relative; overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 20px rgba(0,0,0,.06); transition: transform .15s, box-shadow .15s; }
-.app::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--c); }
-.app:hover, .app:focus-visible { transform: translateY(-3px); box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 14px 28px rgba(0,0,0,.12); outline: none; }
-.app:focus-visible { outline: 3px solid var(--c); outline-offset: 2px; }
-.app img { grid-row: span 4; width: 84px; height: 84px; border-radius: 20px; box-shadow: 0 4px 12px color-mix(in srgb, var(--c) 40%, transparent); }
-.app .tag { justify-self: start; font-size: .74rem; font-weight: 600; color: var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); padding: 1px 10px; border-radius: 99px; }
-.app h2 { margin: 2px 0 0; font-size: 1.15rem; }
-.app p { margin: 0; color: var(--ink-soft); font-size: .88rem; line-height: 1.45; }
-.app .go { font-weight: 600; color: var(--c); font-size: .9rem; }
-.app .go::after { content: " →"; }
-@media (prefers-color-scheme: dark) { .app { --c: var(--c-dark, var(--c)); } }
-.note { margin: 22px 4px 0; color: var(--ink-soft); font-size: .88rem; text-align: center; }
-footer { text-align: center; padding: 18px 16px 26px; color: var(--ink-soft); font-size: .8rem; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.65 var(--font-ui); -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
+h1, h2 { line-height: 1.3; text-wrap: balance; margin: 0; font-weight: 600; }
+:focus-visible { outline: 2px solid var(--pen); outline-offset: 2px; }
+.wrap { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* แบนเนอร์ต้อนรับ (เหมือน .welcome ของ WL Admin: มน 24px) น้ำเงิน-ทอง */
+.welcome { margin-top: 20px; border-radius: 24px; padding: 28px 26px; color: #fff; text-align: center;
+  background: linear-gradient(180deg, #0f4c91 0%, #0a3470 55%, #062150 100%); border: 1px solid #d9a531; box-shadow: inset 0 -4px 0 #d9a531; }
+.welcome img { width: 120px; height: 120px; border-radius: 28px; box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 0 36px rgba(240,200,100,.35); }
+.welcome h1 { margin-top: 14px; font-size: 1.85rem; letter-spacing: -.005em; color: var(--gold-ink); }
+.welcome p { margin: 4px 0 0; color: #fff3d0; font-size: .92rem; }
+
+.sec { margin: 26px 2px 10px; font-size: .74rem; color: var(--ink-soft); letter-spacing: .02em; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+
+/* การ์ด = พื้น sheet + ขอบ 1px (ไม่ใช้เงา) */
+.app { --c: #444; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 2px 16px; align-items: center; padding: 16px;
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--r-lg); text-decoration: none; color: inherit;
+  transition: background .15s, border-color .15s; }
+.app:hover { background: var(--paper); border-color: var(--c); }
+.app img { grid-row: span 4; width: 72px; height: 72px; border-radius: 16px; }
+.chip { justify-self: start; display: inline-flex; align-items: center; border-radius: var(--r); padding: 1px 10px; font-size: .8rem; line-height: 1.7;
+  color: var(--c); background: color-mix(in srgb, var(--c) 13%, transparent); }
+.app h2 { margin-top: 2px; font-size: 1.2rem; }
+.app p { margin: 0; color: var(--ink-soft); font-size: .9rem; line-height: 1.5; }
+/* ปุ่มแคปซูลสีประจำแอป */
+.btn { justify-self: start; margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; border-radius: 99px; padding: 3px 16px; min-height: 32px;
+  font-size: .84rem; font-weight: 600; color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); background: transparent; transition: background .15s; }
+.app:hover .btn { background: var(--c); color: #fff; }
+@media (prefers-color-scheme: dark) { .app { --c: var(--c-dark, var(--c)); } .app:hover .btn { color: #10131a; } }
+
+.note { margin: 20px 2px 0; padding: 12px 16px; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-lg); color: var(--ink-soft); font-size: .88rem; }
+main { flex: 1; padding-bottom: 28px; }
+footer { text-align: center; padding: 14px 16px 26px; color: var(--ink-soft); font-size: .78rem; }
+@media (max-width: 599px) { .grid { grid-template-columns: minmax(0, 1fr); } .welcome h1 { font-size: 1.5rem; } }
 </style>
 </head>
 <body>
-<header>
-  <img src="img/logo-192.png" alt="โลโก้ Wangluek (Y.N.) Connected" width="132" height="132">
-  <h1>Wangluek (Y.N.) Connected</h1>
-  <p>ทางเข้าแอปทั้งหมดของโรงเรียนบ้านวังลึก (ยุวนาฏชนูทิศ)</p>
-</header>
-<main>
+<main class="wrap">
+  <section class="welcome">
+    <img src="img/logo-192.png" alt="โลโก้ Wangluek (Y.N.) Connected" width="120" height="120">
+    <h1>Wangluek (Y.N.) Connected</h1>
+    <p>ทางเข้าแอปทั้งหมดของโรงเรียนบ้านวังลึก (ยุวนาฏชนูทิศ)</p>
+  </section>
+  <div class="sec">แอปทั้งหมด</div>
   <div class="grid">
     <a class="app" href="pp/" style="--c:#0a6b2c;--c-dark:#83da8c">
       <img src="img/app-admin.png" alt="" width="84" height="84">
-      <span class="tag">ธุรการ · ปพ.</span><h2>WL Admin</h2>
-      <p>ทะเบียนนักเรียน เช็กชื่อ เวลาเรียน และงาน ปพ. ศูนย์กลางบัญชีผู้ใช้ของทุกแอป</p><span class="go">เปิดแอป</span></a>
+      <span class="chip">ธุรการ · ปพ.</span><h2>WL Admin</h2>
+      <p>ทะเบียนนักเรียน เช็กชื่อ เวลาเรียน และงาน ปพ. ศูนย์กลางบัญชีผู้ใช้ของทุกแอป</p><span class="btn">เปิดแอป →</span></a>
     <a class="app" href="wl-academic/" style="--c:#5e23a3;--c-dark:#d0b8ff">
       <img src="img/app-academic.png" alt="" width="84" height="84">
-      <span class="tag">งานวิชาการ</span><h2>WL Academic</h2>
-      <p>คลังงานวิชาการ จัดภาระงานครู ติดตามงาน และออกคำสั่งมอบหมายงานประจำปี</p><span class="go">เปิดแอป</span></a>
+      <span class="chip">งานวิชาการ</span><h2>WL Academic</h2>
+      <p>คลังงานวิชาการ จัดภาระงานครู ติดตามงาน และออกคำสั่งมอบหมายงานประจำปี</p><span class="btn">เปิดแอป →</span></a>
     <a class="app" href="planner/" style="--c:#0a5a9c;--c-dark:#8ec8ff">
       <img src="img/app-scheduler.png" alt="" width="84" height="84">
-      <span class="tag">ตารางสอน</span><h2>WL Scheduler</h2>
-      <p>จัดรายวิชา ครู และตารางสอนของโรงเรียน พร้อมเอกสารราชการที่เกี่ยวข้อง</p><span class="go">เปิดแอป</span></a>
+      <span class="chip">ตารางสอน</span><h2>WL Scheduler</h2>
+      <p>จัดรายวิชา ครู และตารางสอนของโรงเรียน พร้อมเอกสารราชการที่เกี่ยวข้อง</p><span class="btn">เปิดแอป →</span></a>
     <a class="app" href="substitution/" style="--c:#8a1a30;--c-dark:#ffb3bf">
       <img src="img/app-substitution.png" alt="" width="84" height="84">
-      <span class="tag">สอนแทน</span><h2>WL Substitution</h2>
-      <p>จัดครูสอนแทนเมื่อครูลา ติดตามและสรุปรายงานการสอนแทน</p><span class="go">เปิดแอป</span></a>
+      <span class="chip">สอนแทน</span><h2>WL Substitution</h2>
+      <p>จัดครูสอนแทนเมื่อครูลา ติดตามและสรุปรายงานการสอนแทน</p><span class="btn">เปิดแอป →</span></a>
     <a class="app" href="wl-draft/" style="--c:#c2410c;--c-dark:#ffb68a">
       <img src="img/app-draft.png" alt="" width="84" height="84">
-      <span class="tag">เอกสาร</span><h2>WL Draft</h2>
-      <p>ร่างบันทึกข้อความ หนังสือภายนอก คำสั่ง และประกาศ ตามแบบหนังสือราชการ</p><span class="go">เปิดแอป</span></a>
+      <span class="chip">เอกสาร</span><h2>WL Draft</h2>
+      <p>ร่างบันทึกข้อความ หนังสือภายนอก คำสั่ง และประกาศ ตามแบบหนังสือราชการ</p><span class="btn">เปิดแอป →</span></a>
   </div>
   <p class="note">ทุกแอปใช้บัญชีเดียวกัน (บัญชี WL Admin) · ล็อกอินครั้งเดียวในแต่ละแอป</p>
 </main>
-<footer>Wangluek (Y.N.) Connected · เวอร์ชัน 2569.10.30-4</footer>
+<footer>Wangluek (Y.N.) Connected · เวอร์ชัน 2569.10.30-5</footer>
 </body>
 </html>
